@@ -1,0 +1,14 @@
+KERNEL_NAME=-armv5-nanopi
+KERNEL_VERSION=4.1.2-1-FriendlyARM
+
+post_install () {
+  # updating module dependencies
+  echo ">>> Updating module dependencies. Please wait ..."
+  depmod ${KERNEL_VERSION}
+}
+
+post_upgrade() {
+  # updating module dependencies
+  echo ">>> Updating module dependencies. Please wait ..."
+  depmod ${KERNEL_VERSION}
+}

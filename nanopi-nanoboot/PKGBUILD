@@ -1,0 +1,39 @@
+pkgname=nanopi-nanoboot
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='A bootloader for the FriendlyARM NanoPi'
+arch=('arm')
+url='http://github.com/ARMWorks/NanoPi-nanoboot'
+license=('GPLv2')
+makedepends=('git')
+option=('!strip')
+install=${pkgname}.install
+_commit=901ffe1e6f93b3a07dad0be8847a455e08ca4270
+source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
+        'nanopi-fuse.sh' )
+md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
+         'fa2b77812d82b3db18c8927baff39d4c')
+
+prepare() {
+   msg2 'Nothing to prepare for now'
+}
+
+build() {
+  cd NanoPi-nanoboot-${_commit}
+  unset LDFLAGS CFLAGS CXXFLAGS
+  msg2 'Building'
+  make
+
+  msg2 'Create a binary for movinand/mmc boot'
+  dd if=/dev/zero bs=1k count=256 | tr "\000" "\377" > build/nanoboot-256k.bin
+  dd if=build/nanoboot.bin of=build/nanoboot-256k.bin conv=notrunc
+}
+
+package() {
+  cd NanoPi-nanoboot-${_commit}
+  mkdir -p "${pkgdir}/boot"
+  install -m644 build/nanoboot-256k.bin  "${pkgdir}/boot/nanoboot.bin"
+
+  mkdir -p "${pkgdir}/usr/bin"
+  install -m755 "${srcdir}/nanopi-fuse.sh" "${pkgdir}/usr/bin"
+}

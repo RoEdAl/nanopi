@@ -1,0 +1,44 @@
+flash_nanopi() {
+  echo "A new NanoPi-nanoboot version needs to be flashed onto /dev/mmcblk0."
+  echo "Do you want to do this now? [y|N]"
+  read -r shouldwe
+  if [[ $shouldwe =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    BLOCK_CNT=`cat /sys/block/mmcblk0/size`
+
+    if [ -z ${BLOCK_CNT} -o ${BLOCK_CNT} -le 0 ]; then
+        echo "error: mmcblk0 is inaccessible"
+        exit 1
+    fi
+
+    if [ ${BLOCK_CNT} -lt 4194303 ]; then
+        BL1_OFFSET=0
+    else
+        BL1_OFFSET=1024
+    fi
+
+    BL1_SIZE=16
+    ENV_SIZE=32
+    BL2_SIZE=512
+
+    let BL1_POSITION=${BLOCK_CNT}-${BL1_OFFSET}-${BL1_SIZE}-2
+    let BL2_POSITION=${BL1_POSITION}-${BL2_SIZE}-${ENV_SIZE}
+
+    dd if=/boot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL2_POSITION} conv=fdatasync
+    dd if=/boot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync
+  else
+    echo "You can do this later by running:"
+    echo "nanoboot_fuse.sh /dev/mmcblk0"
+    echo "as root."
+  fi
+}
+
+## arg 1:  the new package version
+post_install() {
+  flash_nanopi
+}
+
+## arg 1:  the new package version
+## arg 2:  the old package version
+post_upgrade() {
+  flash_nanopi
+}
