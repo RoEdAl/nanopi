@@ -6,6 +6,6 @@ post_install() {
     APWD='$6$9H2q/YSe$3Ct6lDeYUh7zMzy7lg1m8KKlWc/3b/u0EVxmTOpquGVHItgqUL8GllMZRHMr2zAVOKZjarG6Kh3KRgSdXoeJr1'
 
     if ! getent passwd alarm >/dev/null; then
-    	useradd -G users,audio -p "$APWD" alarm
+    	useradd -G users,audio -m -p "$APWD" alarm
     fi
 }
