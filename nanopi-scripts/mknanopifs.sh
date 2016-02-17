@@ -20,7 +20,7 @@ cp custompkg/*.pkg.tar.xz nanopi/root/custompkg
 arch-chroot nanopi bash /root/custompkg/prepare_inside.sh
 
 echo '[nanopi] Cleaning NanoPi filesystem'
-rm -rf nanopi/root/cusotmfs
+rm -rf nanopi/root/cusotmpkg
 rm nanopi/usr/bin/qemu-arm-static
 
 echo '[nanopi] Conmpressing NanoPi filesystem'
