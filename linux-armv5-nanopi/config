@@ -1352,9 +1352,9 @@ CONFIG_WLAN=y
 # CONFIG_USB_NET_RNDIS_WLAN is not set
 # CONFIG_ATH_CARDS is not set
 CONFIG_BCMDHD=y
-CONFIG_BCMDHD_FW_PATH="/lib/firmware/ap6210/fw_bcmdhd.bin"
-CONFIG_BCMDHD_NVRAM_PATH="/lib/firmware/ap6210/nvram.txt"
-CONFIG_BCMDHD_CONFIG_PATH="/lib/firmware/ap6210/config.txt"
+CONFIG_BCMDHD_FW_PATH="/usr/lib/firmware/ap6210/fw_bcmdhd.bin"
+CONFIG_BCMDHD_NVRAM_PATH="/usr/lib/firmware/ap6210/nvram.txt"
+CONFIG_BCMDHD_CONFIG_PATH="/usr/lib/firmware/ap6210/config.txt"
 CONFIG_BCMDHD_OOB=y
 # CONFIG_BCMDHD_SDIO_IRQ is not set
 # CONFIG_BRCMFMAC is not set

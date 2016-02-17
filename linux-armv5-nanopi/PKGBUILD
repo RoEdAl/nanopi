@@ -16,7 +16,7 @@ source=("http://github.com/ARMWorks/NanoPi-Linux-4.1.y/archive/${_commit}.tar.gz
         'config')
 md5sums=('e26cfe554169651073bb08211598c6da'
          'SKIP'
-         'bd7f896ea43af2e56bd06f8c49ecbf89')
+         '2586e62dd19d93aa8a7c1d6d51cdc511')
 
 prepare() {
   cd "${srcdir}/${_srcname}"
@@ -28,10 +28,15 @@ prepare() {
   cp -ru "${srcdir}/aufs4-standalone/include/uapi/linux/aufs_type.h" ./include/uapi/linux
 
   msg2 'AUFS patches #2'
-  git apply ../aufs4-standalone/aufs4-kbuild.patch
-  git apply ../aufs4-standalone/aufs4-base.patch
-  git apply ../aufs4-standalone/aufs4-mmap.patch
-  git apply ../aufs4-standalone/aufs4-standalone.patch
+  # git apply ../aufs4-standalone/aufs4-kbuild.patch
+  # git apply ../aufs4-standalone/aufs4-base.patch
+  # git apply ../aufs4-standalone/aufs4-mmap.patch
+  # git apply ../aufs4-standalone/aufs4-standalone.patch
+
+  patch -p1 < ../aufs4-standalone/aufs4-kbuild.patch
+  patch -p1 < ../aufs4-standalone/aufs4-base.patch
+  patch -p1 < ../aufs4-standalone/aufs4-mmap.patch
+  patch -p1 < ../aufs4-standalone/aufs4-standalone.patch
 
   msg2 'Configuration file'
   cat "${srcdir}/config" > ./.config
