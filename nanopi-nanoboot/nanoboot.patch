@@ -1,5 +1,5 @@
 diff --git a/fuse.sh b/fuse.sh
-index 03b2be8..3f78275 100755
+index 03b2be8..07df055 100755
 --- a/fuse.sh
 +++ b/fuse.sh
 @@ -15,20 +15,13 @@
@@ -24,18 +24,28 @@ index 03b2be8..3f78275 100755
  	if [ ! -e $1 ]; then
  		echo "Error: $1 does not exist."
  		exit 1
-@@ -68,12 +61,7 @@ let BL2_POSITION=${BL1_POSITION}-${BL2_SIZE}-${ENV_SIZE}
+@@ -68,12 +61,18 @@ let BL2_POSITION=${BL1_POSITION}-${BL2_SIZE}-${ENV_SIZE}
  # ----------------------------------------------------------
  # Create a binary for movinand/mmc boot
  
 -# pad to 256k
 -dd if=/dev/zero bs=1k count=256 2> /dev/null | tr "\000" "\377" > build/nanoboot-256k.bin
 -dd if=build/nanoboot.bin of=build/nanoboot-256k.bin conv=notrunc 2> /dev/null
--
++if [ -f nanoboot.bin ]; then
++	NANOBOOT=nanoboot.bin
++else
++	NANOBOOT=/boot/nanoboot.bin
++fi
++
++[ -f ${NANOBOOT} ] || {
++	echo 'Cannot find nanoboot.bin file'
++	exit 1
++}
+ 
 -dd if=build/nanoboot-256k.bin of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
 -dd if=build/nanoboot-256k.bin of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
 -rm build/nanoboot-256k.bin
-+dd if=/boot/nanoboot.bin of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
-+dd if=/boot/nanoboot.bin of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
++dd if=${NANOBOOT} of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
++dd if=${NANOBOOT} of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
  
  echo "nanoboot fused"

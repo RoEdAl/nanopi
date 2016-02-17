@@ -13,7 +13,7 @@ _srcname=NanoPi-nanoboot-${_commit}
 source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
         'nanoboot.patch' )
 md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
-         'd0e4e87d1a1eb43b336461534f5ab12e')
+         '1466408b22bd976827f4b66551fcd233')
 
 prepare() {
    cd ${srcdir}/${_srcname}
