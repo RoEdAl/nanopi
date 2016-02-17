@@ -27,7 +27,7 @@ flash_nanopi() {
     dd if=/boot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync
   else
     echo "You can do this later by running:"
-    echo "nanoboot_fuse.sh /dev/mmcblk0"
+    echo "nanopi_fuse.sh /dev/mmcblk0"
     echo "as root."
   fi
 }

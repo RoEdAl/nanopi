@@ -1,0 +1,41 @@
+diff --git a/fuse.sh b/fuse.sh
+index 03b2be8..3f78275 100755
+--- a/fuse.sh
++++ b/fuse.sh
+@@ -15,20 +15,13 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+-# Automatically re-run script under sudo if not root
+-if [ $(id -u) -ne 0 ]; then
+-  echo "Rerunning script under sudo..."
+-  sudo "$0" "$@"
+-  exit
+-fi
+-
+ if [ -z $1 ]; then
+ 	echo "Usage: $0 DEVICE"
+ 	exit 0
+ fi
+ 
+ case $1 in
+-/dev/sd[a-z] | /dev/loop0)
++/dev/sd[a-z] | /dev/loop0 | /dev/mmcblk[0-9])
+ 	if [ ! -e $1 ]; then
+ 		echo "Error: $1 does not exist."
+ 		exit 1
+@@ -68,12 +61,7 @@ let BL2_POSITION=${BL1_POSITION}-${BL2_SIZE}-${ENV_SIZE}
+ # ----------------------------------------------------------
+ # Create a binary for movinand/mmc boot
+ 
+-# pad to 256k
+-dd if=/dev/zero bs=1k count=256 2> /dev/null | tr "\000" "\377" > build/nanoboot-256k.bin
+-dd if=build/nanoboot.bin of=build/nanoboot-256k.bin conv=notrunc 2> /dev/null
+-
+-dd if=build/nanoboot-256k.bin of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
+-dd if=build/nanoboot-256k.bin of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
+-rm build/nanoboot-256k.bin
++dd if=/boot/nanoboot.bin of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
++dd if=/boot/nanoboot.bin of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
+ 
+ echo "nanoboot fused"

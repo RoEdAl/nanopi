@@ -9,17 +9,23 @@ makedepends=('git')
 option=('!strip')
 install=${pkgname}.install
 _commit=901ffe1e6f93b3a07dad0be8847a455e08ca4270
+_srcname=NanoPi-nanoboot-${_commit}
 source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
-        'nanopi-fuse.sh' )
+        'nanoboot.patch' )
 md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
-         'fa2b77812d82b3db18c8927baff39d4c')
+         'd0e4e87d1a1eb43b336461534f5ab12e')
 
 prepare() {
-   msg2 'Nothing to prepare for now'
+   cd ${srcdir}/${_srcname}
+
+   msg2 'patching sources'
+   # git apply ${srcdir}/nanoboot.patch
+   patch -p1 < ../nanoboot.patch
 }
 
 build() {
-  cd NanoPi-nanoboot-${_commit}
+  cd ${srcdir}/${_srcname}
+
   unset LDFLAGS CFLAGS CXXFLAGS
   msg2 'Building'
   make
@@ -30,10 +36,11 @@ build() {
 }
 
 package() {
-  cd NanoPi-nanoboot-${_commit}
+  cd ${srcdir}/${_srcname}
+
   mkdir -p "${pkgdir}/boot"
   install -m644 build/nanoboot-256k.bin  "${pkgdir}/boot/nanoboot.bin"
 
   mkdir -p "${pkgdir}/usr/bin"
-  install -m755 "${srcdir}/nanopi-fuse.sh" "${pkgdir}/usr/bin"
+  install -m755 "fuse.sh" "${pkgdir}/usr/bin/nanopi_fuse.sh"
 }
