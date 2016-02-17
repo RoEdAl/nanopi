@@ -1,5 +1,5 @@
 pkgname=nanopi-config
-pkgver=1.0.0
+pkgver=1
 pkgrel=1
 pkgdesc='NanoPi-specific configuration files'
 arch=('arm')
@@ -24,8 +24,8 @@ package() {
   cp -r --preserve=mode ap6210 "${pkgdir}/usr/lib/firmware"
   
   msg2 'Installing network configuration file'
-  mkdir -p "${pkgdir}/lib/systemd/network"
-  install -m644 gadet-friendlyarm.network  "${pkgdir}/lib/systemd/network/70-gadet-frienlyarm.network"
+  mkdir -p "${pkgdir}/usr/lib/systemd/network"
+  install -m644 gadet-friendlyarm.network  "${pkgdir}/usr/lib/systemd/network/70-gadet-frienlyarm.network"
 
   msg2 'Installing fstab'
   mkdir -p "${pkgdir}/etc"
