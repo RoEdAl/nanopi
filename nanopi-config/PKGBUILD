@@ -14,7 +14,7 @@ source=('gadet-friendlyarm.network'
           'fstab')
 md5sums=('b42999105c6fc3b5ec09387f409b2822'
          'fc95963e66974e82b1124abf3f152eb2'
-         'e4982a9a38f52c6706673969af7f4cd8')
+         '8211e401cf6b7df390b39e4bcaf72e2d')
 
 package() {
   cd ${srcdir}
