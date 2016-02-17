@@ -1,0 +1,15 @@
+## arg 1:  the new package version
+post_install() {
+    systemctl is-enabled systemd-networkd || systemctl enable systemd-networkd
+    systemctl is-enabled netctl && systemctl disable netctl
+
+    if ! getent passwd alarm >/dev/null; then
+    	useradd -G users,audio alarm / >/dev/null
+        echo 'alarm' | passwd alarm --stdin
+    fi
+}
+
+## arg 1:  the new package version
+## arg 2:  the old package version
+post_upgrade() {
+}

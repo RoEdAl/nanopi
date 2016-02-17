@@ -1,0 +1,33 @@
+pkgname=nanopi-config
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='NanoPi-specific configuration files'
+arch=('arm')
+url='http://nanopi.org'
+license=('GPL2')
+install=${pkgname}.install
+depends=('systemd>=215' 'netctl' 'wpa_supplicant' 'bluez' 'bluez-utils')
+optdepends=('wpa_actiond' 'dialog')
+backup=('etc/fstab')
+source=('gadet-friendlyarm.network'
+	 'ap6210.tar.gz' 
+          'fstab')
+md5sums=('b42999105c6fc3b5ec09387f409b2822'
+         'fc95963e66974e82b1124abf3f152eb2'
+         'e4982a9a38f52c6706673969af7f4cd8')
+
+package() {
+  cd ${srcdir}
+
+  msg2 'Installing ap6210 firmware'
+  mkdir -p "${pkgdir}/usr/lib/firmware"
+  cp -r --preserve=mode ap6210 "${pkgdir}/usr/lib/firmware"
+  
+  msg2 'Installing network configuration file'
+  mkdir -p "${pkgdir}/lib/systemd/network"
+  install -m644 gadet-friendlyarm.network  "${pkgdir}/lib/systemd/network/70-gadet-frienlyarm.network"
+
+  msg2 'Installing fstab'
+  mkdir -p "${pkgdir}/etc"
+  install -m644 fstab "${pkgdir}/etc"
+}

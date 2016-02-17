@@ -1,0 +1,2 @@
+/dev/mmcblk0p2 / ext4 errors=remount-ro 0 1
+/dev/mmcblk0p3 none swap sw 0 0
