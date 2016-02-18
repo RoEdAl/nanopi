@@ -6,8 +6,9 @@ echo '[nanopi] Clearing pacgage cache'
 echo -e "y\ny\n" | pacman -Scc
 
 echo '[nanopi] Updating configuration files'
-[ -f /etc/fstab.pacnew ] || mv /etc/fstab.pacnew /etc/fstab
-[ -f /etc/dhcpd.conf.pacnew ] || mv /etc/dhcpd.conf.pacnew /etc/dhcpd.conf
+[ -f /etc/dhcpd.conf.pacnew ] && mv /etc/dhcpd.conf.pacnew /etc/dhcpd.conf
+[ -f /etc/fstab.pacnew ] && mv /etc/fstab.pacnew /etc/fstab
+[ -f /etc/dhcpd.conf.pacnew ] && mv /etc/dhcpd.conf.pacnew /etc/dhcpd.conf
 
 echo '[nanopi] Rebuilding man database'
 mandb -q
