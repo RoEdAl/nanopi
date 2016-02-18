@@ -4,5 +4,10 @@ Name=usb0
 
 [Network]
 Address=10.0.0.1/24
-Gateway=10.0.0.2
-DHCPServer=yes
+DHCP=no
+DHCPServer=no
+
+[DHCPServer]
+EmitDNS=no
+EmitNTP=no
+EmitTimezone=no
