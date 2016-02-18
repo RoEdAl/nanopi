@@ -13,7 +13,7 @@ _srcname=NanoPi-nanoboot-${_commit}
 source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
         'nanoboot.patch' )
 md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
-         '1466408b22bd976827f4b66551fcd233')
+         '2b28febead90d1ef473cf1ae7f73180c')
 
 prepare() {
    cd ${srcdir}/${_srcname}
@@ -26,9 +26,8 @@ prepare() {
 build() {
   cd ${srcdir}/${_srcname}
 
-  unset LDFLAGS CFLAGS CXXFLAGS
   msg2 'Building'
-  make
+  make DEBUG=0 V=1
 
   msg2 'Create a binary for movinand/mmc boot'
   dd if=/dev/zero bs=1k count=256 | tr "\000" "\377" > build/nanoboot-256k.bin

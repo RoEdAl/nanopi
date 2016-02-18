@@ -1,3 +1,16 @@
+diff --git a/Makefile b/Makefile
+index d8d9e97..5c3028f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -32,7 +32,7 @@ OFILES := $(BL1_OFILES) $(CFILES:src/%.c=build/%.o)
+ ifeq ($(DEBUG),1)
+ 	CFLAGS := -O0
+ else
+-	CFLAGS := -Os
++	CFLAGS := -O1
+ endif
+ 
+ CFLAGS += -g3 -Wall -Wno-unused-function -std=gnu99 -ffreestanding -fdata-sections -ffunction-sections -nostdinc -D__KERNEL__
 diff --git a/fuse.sh b/fuse.sh
 index 03b2be8..07df055 100755
 --- a/fuse.sh
