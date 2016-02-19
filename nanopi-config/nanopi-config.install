@@ -5,6 +5,7 @@ post_install() {
     systemctl is-enabled netctl -q && systemctl disable netctl -q
     systemctl is-enabled dhcpd4 -q || systemctl enable dhcpd4 -q
     systemctl is-enabled sshd.socket -q || systemctl enable sshd.socket -q
+    systemctl is-enabled haveged -q || systemctl enable haveged -q
 
     if ! getent passwd alarm >/dev/null; then
     	useradd -G users,audio -m alarm
