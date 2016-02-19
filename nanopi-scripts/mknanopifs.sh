@@ -19,6 +19,10 @@ cp prepare_inside.sh nanopi/root/custompkg
 cp custompkg/*.pkg.tar.xz nanopi/root/custompkg
 arch-chroot nanopi bash /root/custompkg/prepare_inside.sh
 
+echo '[nanopi] Symlinking /run/systemd/resolve/resolv.conf'
+mv nanopi/etc/resolv.conf nanopi/etc/resolv.conf.bak
+ln -s /run/systemd/resolve/resolv.conf nanopi/etc/resolv.conf
+
 echo '[nanopi] Cleaning NanoPi filesystem'
 rm -rf nanopi/root/cusotmpkg
 rm nanopi/usr/bin/qemu-arm-static

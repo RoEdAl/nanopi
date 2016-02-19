@@ -1,6 +1,7 @@
 ## arg 1:  the new package version
 post_install() {
     systemctl is-enabled systemd-networkd -q || systemctl enable systemd-networkd -q
+    systemctl is-enabled systemd-resolved -q || systemctl enable systemd-resolved -q
     systemctl is-enabled netctl -q && systemctl disable netctl -q
     systemctl is-enabled dhcpd4 -q || systemctl enable dhcpd4 -q
     systemctl is-enabled sshd.socket -q || systemctl enable sshd.socket -q
