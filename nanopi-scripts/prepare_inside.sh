@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo '[nanopi] Hello from inside'
+hostnamectl set-hostname nanopi
+hostnamectl set-hassis embedded
+
+echo '[nanopi] Installing additional packages'
 echo -e "n\n" | pacman -U /root/custompkg/*-arm.pkg.tar.xz --force --noconfirm --needed
 
 echo '[nanopi] Clearing pacman cache'
