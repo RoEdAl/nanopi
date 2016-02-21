@@ -12,7 +12,7 @@ index d8d9e97..5c3028f 100644
  
  CFLAGS += -g3 -Wall -Wno-unused-function -std=gnu99 -ffreestanding -fdata-sections -ffunction-sections -nostdinc -D__KERNEL__
 diff --git a/fuse.sh b/fuse.sh
-index 03b2be8..07df055 100755
+index 03b2be8..c861a9f 100755
 --- a/fuse.sh
 +++ b/fuse.sh
 @@ -15,20 +15,13 @@
@@ -47,7 +47,7 @@ index 03b2be8..07df055 100755
 +if [ -f nanoboot.bin ]; then
 +	NANOBOOT=nanoboot.bin
 +else
-+	NANOBOOT=/boot/nanoboot.bin
++	NANOBOOT=/usr/share/nanopi-nanoboot/nanoboot.bin
 +fi
 +
 +[ -f ${NANOBOOT} ] || {
@@ -58,7 +58,8 @@ index 03b2be8..07df055 100755
 -dd if=build/nanoboot-256k.bin of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
 -dd if=build/nanoboot-256k.bin of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
 -rm build/nanoboot-256k.bin
-+dd if=${NANOBOOT} of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync &> /dev/null
-+dd if=${NANOBOOT} of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync &> /dev/null
++dd if=${NANOBOOT} of=/dev/${DEV_NAME} bs=512 seek=${BL2_POSITION} conv=fdatasync status=none
++dd if=${NANOBOOT} of=/dev/${DEV_NAME} bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync status=none
  
- echo "nanoboot fused"
+-echo "nanoboot fused"
++echo 'nanoboot fused'

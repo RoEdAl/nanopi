@@ -23,11 +23,11 @@ flash_nanopi() {
     let BL1_POSITION=${BLOCK_CNT}-${BL1_OFFSET}-${BL1_SIZE}-2
     let BL2_POSITION=${BL1_POSITION}-${BL2_SIZE}-${ENV_SIZE}
 
-    dd if=/boot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL2_POSITION} conv=fdatasync
-    dd if=/boot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync
+    dd if=/usr/share/nanopi-nanoboot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL2_POSITION} conv=fdatasync status=none
+    dd if=/usr/share/nanopi-nanoboot/nanoboot.bin of=/dev/mmcblk0 bs=512 seek=${BL1_POSITION} count=16 conv=fdatasync status=none
   else
     echo "You can do this later by running:"
-    echo "nanopi_fuse.sh /dev/mmcblk0"
+    echo "npfuse.sh /dev/mmcblk0"
     echo "as root."
   fi
 }

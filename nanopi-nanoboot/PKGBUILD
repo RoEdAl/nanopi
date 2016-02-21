@@ -13,7 +13,7 @@ _srcname=NanoPi-nanoboot-${_commit}
 source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
         'nanoboot.patch' )
 md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
-         '2b28febead90d1ef473cf1ae7f73180c')
+         '0b6f9311b092148391ef6ca78aa5342d')
 
 prepare() {
    cd ${srcdir}/${_srcname}
@@ -37,9 +37,9 @@ build() {
 package() {
   cd ${srcdir}/${_srcname}
 
-  mkdir -p "${pkgdir}/boot"
-  install -m644 build/nanoboot-256k.bin  "${pkgdir}/boot/nanoboot.bin"
+  mkdir -p "${pkgdir}/usr/share/${pkgname}"
+  install -m644 build/nanoboot-256k.bin  "${pkgdir}/usr/share/${pkgname}/nanoboot.bin"
 
   mkdir -p "${pkgdir}/usr/bin"
-  install -m755 "fuse.sh" "${pkgdir}/usr/bin/nanopi_fuse.sh"
+  install -m755 "fuse.sh" "${pkgdir}/usr/bin/npfuse.sh"
 }
