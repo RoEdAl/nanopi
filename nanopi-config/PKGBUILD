@@ -19,9 +19,9 @@ source=('gadet-friendlyarm.network'
         'sshd-sched.conf')
 md5sums=('4ea74fb21b0642242a5d72fad6301f92'
          'fc95963e66974e82b1124abf3f152eb2'
-         '8211e401cf6b7df390b39e4bcaf72e2d'
+         'a27a95989581eb85671ca5cdd57c4bcd'
          'd709cb2d401baaadd78d7f4c1e8f6f79'
-         '4c04b9fdf35f5ac9acc98293cbb2c479'
+         '84b79d94c0c2c2dcbb4d6c39e6d69c1f'
          '04c50377dafb9620aca9abffabe54f6a'
          '04c50377dafb9620aca9abffabe54f6a'
          'aa8f2773df9103538ccf6684929c05c6')
