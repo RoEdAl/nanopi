@@ -11,9 +11,12 @@ install=${pkgname}.install
 _commit=901ffe1e6f93b3a07dad0be8847a455e08ca4270
 _srcname=NanoPi-nanoboot-${_commit}
 source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
-        'nanoboot.patch' )
+        'nanoboot.patch'
+	'nanoboot.txt')
 md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
-         '0b6f9311b092148391ef6ca78aa5342d')
+         '0b6f9311b092148391ef6ca78aa5342d'
+         '29797f68f93e6ccb28e32cab512a43ca')
+backup=('boot/nanoboot.txt')
 
 prepare() {
    cd ${srcdir}/${_srcname}
@@ -27,11 +30,11 @@ build() {
   cd ${srcdir}/${_srcname}
 
   msg2 'Building'
-  make DEBUG=0 V=1
+  make DEBUG=0 V=0
 
   msg2 'Create a binary for movinand/mmc boot'
-  dd if=/dev/zero bs=1k count=256 | tr "\000" "\377" > build/nanoboot-256k.bin
-  dd if=build/nanoboot.bin of=build/nanoboot-256k.bin conv=notrunc
+  dd if=/dev/zero bs=1k count=256 status=none | tr "\000" "\377" > build/nanoboot-256k.bin
+  dd if=build/nanoboot.bin of=build/nanoboot-256k.bin conv=notrunc status=none
 }
 
 package() {
@@ -41,5 +44,8 @@ package() {
   install -m644 build/nanoboot-256k.bin  "${pkgdir}/usr/share/${pkgname}/nanoboot.bin"
 
   mkdir -p "${pkgdir}/usr/bin"
-  install -m755 "fuse.sh" "${pkgdir}/usr/bin/npfuse.sh"
+  install -m755 fuse.sh "${pkgdir}/usr/bin/npfuse.sh"
+
+  mkdir -p "${pkgdir}/boot"
+  install -m644 ../nanoboot.txt "${pkgdir}/boot"
 }
