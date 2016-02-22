@@ -7,7 +7,7 @@ echo '[nanopi] Hello from inside'
 echo '[nanopi] Installing additional packages'
 echo -e "n\n" | pacman -U /root/custompkg/*-arm.pkg.tar.xz --force --noconfirm --needed
 
-echo '[nanopi] Removing systemd-sysvcompat"
+echo '[nanopi] Removing systemd-sysvcompat'
 pacman -R systemd-sysvcompat --noconfirm
 
 echo '[nanopi] Clearing pacman cache'
