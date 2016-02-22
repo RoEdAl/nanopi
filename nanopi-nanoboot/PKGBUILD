@@ -15,7 +15,7 @@ source=("http://github.com/ARMWorks/NanoPi-nanoboot/archive/${_commit}.tar.gz"
 	'nanoboot.txt')
 md5sums=('d41082d30ffdfe7861458bc5a6ae7a95'
          '0b6f9311b092148391ef6ca78aa5342d'
-         '9faa782847bd5c654d06556c57d47e65')
+         '0cc66b57232440efd05d61904a0b2f1c')
 backup=('boot/nanoboot.txt')
 
 prepare() {
