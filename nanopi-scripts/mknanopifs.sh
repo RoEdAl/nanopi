@@ -26,10 +26,10 @@ ln -s /run/systemd/resolve/resolv.conf nanopi/etc/resolv.conf
 echo '[nanopi] Cleaning NanoPi filesystem'
 rm -rf nanopi/root/cusotmpkg
 rm nanopi/usr/bin/qemu-arm-static
+rm nanopi/var/log/*.log
 
 echo '[nanopi] Conmpressing NanoPi filesystem'
 bsdtar -cJf ArchLinuxARM-NanoPi-latest.tar.xz --option xz:compression-level=6 -C nanopi .
-ls -l *.tar.xz
+ls -l ArchLinuxARM*.tar.xz
 
 echo '[nanopi] Done'
-
