@@ -13,4 +13,6 @@ post_install() {
     fi
 
     echo 'root:root' | chpasswd
+
+    sed -i '/UseSyslog/s/^#//g' /etc/pacman.conf
 }
