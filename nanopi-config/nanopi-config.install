@@ -15,4 +15,5 @@ post_install() {
     echo 'root:root' | chpasswd
 
     sed -i '/UseSyslog/s/^#//g' /etc/pacman.conf
+    sed -i 's/.*pacman\.log.*/LogFile = \/dev\/null/' /etc/pacman.conf
 }
