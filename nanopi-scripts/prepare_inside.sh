@@ -24,7 +24,7 @@ echo '[nanopi] Removing /etc/sysctl.d/100-manjaro.conf'
 [ -f /etc/sysctl.d/100-manjaro.conf ] && rm /etc/sysctl.d/100-manjaro.conf
 
 echo '[nanopi] Setting default systemd target'
-ln -s -f mulit-user.target /usr/lib/systemd/system/default.target
+ln -s -f multi-user.target /usr/lib/systemd/system/default.target
 
 echo '[nanopi] Building man database'
 mandb -q
