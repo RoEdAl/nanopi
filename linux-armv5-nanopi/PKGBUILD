@@ -16,7 +16,7 @@ source=("http://github.com/ARMWorks/NanoPi-Linux-4.1.y/archive/${_commit}.tar.gz
         'config')
 md5sums=('e26cfe554169651073bb08211598c6da'
          'SKIP'
-         '39f62b665dd4c2096358c8a52ffcadfb')
+         '9e0fdb86e3f8131c4bcd606808b9fbb8')
 
 prepare() {
   cd "${srcdir}/${_srcname}"
