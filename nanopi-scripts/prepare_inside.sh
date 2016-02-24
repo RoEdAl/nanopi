@@ -20,9 +20,6 @@ echo '[nanopi] Updating configuration files'
 }
 [ -f /etc/fstab.pacnew ] && mv /etc/fstab.pacnew /etc/fstab
 
-echo '[nanopi] Removing /var/log/journal'
-[ -d /var/log/journal ] && rm -rf /var/log/journal
-
 echo '[nanopi] Removing /etc/sysctl.d/100-manjaro.conf'
 [ -f /etc/sysctl.d/100-manjaro.conf ] && rm /etc/sysctl.d/100-manjaro.conf
 
