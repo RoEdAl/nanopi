@@ -6,6 +6,7 @@ _kernelname=${pkgbase#linux}
 _desc="ARMv5 NanoPi"
 pkgver=4.1.2
 pkgrel=1
+bfqver=v7r8
 arch=('arm')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -13,9 +14,15 @@ makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
 options=('!strip')
 source=("http://github.com/ARMWorks/NanoPi-Linux-4.1.y/archive/${_commit}.tar.gz"
         "git+https://github.com/sfjro/aufs4-standalone.git#branch=aufs${pkgver%.*}"
+	"ftp://teambelgium.net/bfq/patches/${pkgver%.*}.0-${bfqver}/0001-block-cgroups-kconfig-build-bits-for-BFQ-${bfqver}-${pkgver%.*}.patch"
+        "ftp://teambelgium.net/bfq/patches/${pkgver%.*}.0-${bfqver}/0002-block-introduce-the-BFQ-${bfqver}-I-O-sched-for-${pkgver%.*}.patch"
+        "ftp://teambelgium.net/bfq/patches/${pkgver%.*}.0-${bfqver}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-${bfqver}-for-${pkgver%.*}.0.patch"
         'config')
 md5sums=('e26cfe554169651073bb08211598c6da'
          'SKIP'
+         '74bf103542cbdee0363819309adb97a2'
+         'f09baae3c7add4ed9bedde22ae3efe19'
+         'bd8cc19a31d1cf8aeeaf9245057c4f9b'
          '9e0fdb86e3f8131c4bcd606808b9fbb8')
 
 prepare() {
@@ -28,17 +35,17 @@ prepare() {
   cp -ru "${srcdir}/aufs4-standalone/include/uapi/linux/aufs_type.h" ./include/uapi/linux
 
   msg2 'AUFS patches #2'
-  # git apply ../aufs4-standalone/aufs4-kbuild.patch
-  # git apply ../aufs4-standalone/aufs4-base.patch
-  # git apply ../aufs4-standalone/aufs4-mmap.patch
-  # git apply ../aufs4-standalone/aufs4-standalone.patch
+  patch -Np1 -i ${srcdir}/aufs4-standalone/aufs4-kbuild.patch
+  patch -Np1 -i ${srcdir}/aufs4-standalone/aufs4-base.patch
+  patch -Np1 -i ${srcdir}/aufs4-standalone/aufs4-mmap.patch
+  patch -Np1 -i ${srcdir}/aufs4-standalone/aufs4-standalone.patch
 
-  patch -p1 < ../aufs4-standalone/aufs4-kbuild.patch
-  patch -p1 < ../aufs4-standalone/aufs4-base.patch
-  patch -p1 < ../aufs4-standalone/aufs4-mmap.patch
-  patch -p1 < ../aufs4-standalone/aufs4-standalone.patch
+  msg2 'BFQ patches'
+  patch -Np1 -i "${srcdir}/0001-block-cgroups-kconfig-build-bits-for-BFQ-${bfqver}-${pkgver%.*}.patch"
+  patch -Np1 -i "${srcdir}/0002-block-introduce-the-BFQ-${bfqver}-I-O-sched-for-${pkgver%.*}.patch"
+  patch -Np1 -i "${srcdir}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-${bfqver}-for-${pkgver%.*}.0.patch"
 
-  msg2 'Configuration file'
+  msg2 'Configuration'
   cat "${srcdir}/config" > ./.config
 
   # add pkgrel to extraversion
