@@ -1,6 +1,6 @@
 _al_commit=d696cadf69d22e23aa240ac27dd41d5163f6991d
 _commit=dae0b8afa68b66e36e171ad209a667851a2de4fe
-pkgbase=linux-armv5-nanopi
+pkgbase=linux-nanopi
 _srcname=NanoPi-Linux-4.1.y-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="ARMv5 NanoPi"
@@ -103,7 +103,6 @@ _package() {
 
   # set correct depmod command for install
   sed \
-    -e  "s/KERNEL_NAME=.*/KERNEL_NAME=${_kernelname}/g" \
     -e  "s/KERNEL_VERSION=.*/KERNEL_VERSION=${_kernver}/g" \
     -i "${startdir}/${pkgname}.install"
 
@@ -117,10 +116,10 @@ _package() {
   find "${pkgdir}" -name '*.ko' |xargs -P ${_ncores} -n 1 xz -C crc32 -6e
 
   # make room for external modules
-  ln -s "../extramodules-${_basekernel}-${_kernelname:-FriendlyARM}" "${pkgdir}/lib/modules/${_kernver}/extramodules"
+  ln -s "../extramodules-${_basekernel}${_kernelname}" "${pkgdir}/lib/modules/${_kernver}/extramodules"
   # add real version for building modules and running depmod from post_install/upgrade
-  mkdir -p "${pkgdir}/lib/modules/extramodules-${_basekernel}-${_kernelname:-FriendlyARM}"
-  echo "${_kernver}" > "${pkgdir}/lib/modules/extramodules-${_basekernel}-${_kernelname:-FriendlyARM}/version"
+  mkdir -p "${pkgdir}/lib/modules/extramodules-${_basekernel}${_kernelname}"
+  echo "${_kernver}" > "${pkgdir}/lib/modules/extramodules-${_basekernel}${_kernelname}/version"
 
   # Now we call depmod...
   depmod -b "$pkgdir" -F System.map "$_kernver"

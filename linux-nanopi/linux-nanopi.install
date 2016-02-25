@@ -1,4 +1,3 @@
-KERNEL_NAME=-armv5-nanopi
 KERNEL_VERSION=4.1.2-1-FriendlyARM
 
 post_install () {
