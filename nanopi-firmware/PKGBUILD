@@ -1,0 +1,18 @@
+pkgname=nanopi-firmware
+pkgver=1
+pkgrel=1
+pkgdesc='NanoPi-specific firmware'
+arch=('any')
+url='http://nanopi.org'
+license=('unknown')
+source=('nanopi-firmware.tar.xz')
+md5sums=('ffbe78b28ff3ab42e4f4f057733cf7d3')
+noextract=('nanopi-firmware.tar.xz')
+
+package() {
+  cd ${srcdir}
+
+  msg2 'ap6210 firmware'
+  mkdir -p "${pkgdir}/usr/lib/firmware"
+  bsdtar -xf "${srcdir}/nanopi-firmware.tar.xz" -C "${pkgdir}/usr/lib/firmware"
+}

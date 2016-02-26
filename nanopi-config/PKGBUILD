@@ -5,13 +5,12 @@ pkgrel=1
 pkgdesc='NanoPi-specific configuration files'
 arch=('any')
 url='http://nanopi.org'
-license=('GPL2')
+license=('BSD')
 install=${pkgname}.install
 depends=('systemd>=215' 'netctl' 'wpa_supplicant' 'bluez' 'bluez-utils' 'openssh' 'dhcp' 'haveged' 'rfkill')
 optdepends=('wpa_actiond' 'dialog')
 backup=('etc/hostname' 'etc/fstab' 'etc/dhcpd.conf')
 source=('gadet-friendlyarm.network'
-	'ap6210.tar.gz' 
         'hostname'
         'fstab'
         'dhcpd.conf'
@@ -22,7 +21,6 @@ source=('gadet-friendlyarm.network'
         'sysctl-swap.conf'
 	'blue-led.conf')
 md5sums=('4ea74fb21b0642242a5d72fad6301f92'
-         'fc95963e66974e82b1124abf3f152eb2'
          '8a93ab2db745a093793680d7922559b5'
          'a47057e16c2d8f140e91da8659c4c6e5'
          'd709cb2d401baaadd78d7f4c1e8f6f79'
@@ -36,10 +34,6 @@ md5sums=('4ea74fb21b0642242a5d72fad6301f92'
 package() {
   cd ${srcdir}
 
-  msg2 'ap6210 firmware'
-  mkdir -p "${pkgdir}/usr/lib/firmware"
-  cp -r --preserve=mode ap6210 "${pkgdir}/usr/lib/firmware"
-  
   msg2 'systemd-networkd configuration'
   mkdir -p "${pkgdir}/usr/lib/systemd/network"
   install -m644 gadet-friendlyarm.network  "${pkgdir}/usr/lib/systemd/network/70-gadet-frienlyarm.network"
