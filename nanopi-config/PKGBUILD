@@ -75,6 +75,6 @@ package() {
   install -m644 sysctl-swap.conf "${pkgdir}/usr/lib/sysctl.d/90-swap.conf"
 
   msg2 'blue LED'
-  mkdir -p "#{pkgdir}/usr/lib/tmpfiles.d"
+  mkdir -p "${pkgdir}/usr/lib/tmpfiles.d"
   install -m644 blue-led.conf "${pkgdir}/usr/lib/tmpfiles.d"
 }
