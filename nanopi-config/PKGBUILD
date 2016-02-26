@@ -1,12 +1,13 @@
+
 pkgname=nanopi-config
 pkgver=1
 pkgrel=1
 pkgdesc='NanoPi-specific configuration files'
-arch=('arm')
+arch=('any')
 url='http://nanopi.org'
 license=('GPL2')
 install=${pkgname}.install
-depends=('systemd>=215' 'netctl' 'wpa_supplicant' 'bluez' 'bluez-utils' 'openssh' 'dhcp' 'haveged')
+depends=('systemd>=215' 'netctl' 'wpa_supplicant' 'bluez' 'bluez-utils' 'openssh' 'dhcp' 'haveged' 'rfkill')
 optdepends=('wpa_actiond' 'dialog')
 backup=('etc/hostname' 'etc/fstab' 'etc/dhcpd.conf')
 source=('gadet-friendlyarm.network'
@@ -18,7 +19,8 @@ source=('gadet-friendlyarm.network'
         'haveged-sched.conf'
         'systemd-timesyncd-sched.conf'
         'sshd-sched.conf'
-        'sysctl-swap.conf')
+        'sysctl-swap.conf'
+	'blue-led.conf')
 md5sums=('4ea74fb21b0642242a5d72fad6301f92'
          'fc95963e66974e82b1124abf3f152eb2'
          '8a93ab2db745a093793680d7922559b5'
@@ -28,7 +30,8 @@ md5sums=('4ea74fb21b0642242a5d72fad6301f92'
          '04c50377dafb9620aca9abffabe54f6a'
          '04c50377dafb9620aca9abffabe54f6a'
          'aa8f2773df9103538ccf6684929c05c6'
-         '0aefc22efe22187f863410c0df02ed29')
+         '0aefc22efe22187f863410c0df02ed29'
+         '28194541f14b7b1a18a5280f79662292')
 
 package() {
   cd ${srcdir}
@@ -70,4 +73,8 @@ package() {
   msg2 'sysctl'
   mkdir -p "${pkgdir}/usr/lib/sysctl.d"
   install -m644 sysctl-swap.conf "${pkgdir}/usr/lib/sysctl.d/90-swap.conf"
+
+  msg2 'blue LED'
+  mkdir -p "#{pkgdir}/usr/lib/tmpfiles.d"
+  install -m644 blue-led.conf "${pkgdir}/usr/lib/tmpfiles.d"
 }
