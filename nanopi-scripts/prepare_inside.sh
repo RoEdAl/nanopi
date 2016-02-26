@@ -5,7 +5,7 @@ echo '[nanopi] Hello from inside'
 # hostnamectl set-hassis embedded
 
 echo '[nanopi] Installing additional packages'
-echo -e "n\n" | pacman -U /root/custompkg/*-arm.pkg.tar.xz --force --noconfirm --needed --logfile /dev/null
+echo -e "n\n" | pacman -U /root/custompkg/*.pkg.tar.xz --force --noconfirm --needed --logfile /dev/null
 
 echo '[nanopi] Removing systemd-sysvcompat'
 pacman -R systemd-sysvcompat --noconfirm --logfile /dev/null
