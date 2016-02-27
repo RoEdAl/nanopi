@@ -14,12 +14,12 @@ md5sums=('054fefbd7fb02bb949b55966613491b0'
 package() {
     cd "${srcdir}"
 
-    install -dm644 "${pkgdir}/usr/lib/systemd/system"
+    install -dm755 "${pkgdir}/usr/lib/systemd/system"
     install -m644 ap6210bt@.service "${pkgdir}/usr/lib/systemd/system"
 
-    install -dm644 "${pkgdir}/usr/lib/systemd/system/ap6210bt@.service.d"
+    install -dm755 "${pkgdir}/usr/lib/systemd/system/ap6210bt@.service.d"
     install -m644 ap6210bt-sched.conf "${pkgdir}/usr/lib/systemd/system/ap6210bt@.service.d/sched.conf"
 
-    install -dm644 "${pkgdir}/etc/conf.d"
+    install -dm755 "${pkgdir}/etc/conf.d"
     install -m644 ap6210bt "${pkgdir}/etc/conf.d"
 }
