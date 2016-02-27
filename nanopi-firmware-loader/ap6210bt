@@ -1,0 +1,3 @@
+BRCM_PATCHRAM=/usr/lib/firmware/ap6210/bcm20702a.hcd
+BRCM_ADDR=aa:22:33:44:55:66 
+BRCM_TOSLEEP=5000

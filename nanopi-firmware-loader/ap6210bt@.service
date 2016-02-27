@@ -1,0 +1,17 @@
+[Unit]
+Description=Configure ap6210 BT devices via /dev/ttySAC%I serial port
+Before=bluetooth.service
+BindsTo=sys-devices-platform-s3c2440\x2duart.%i-tty-ttySAC%i.device
+After=sys-devices-platform-s3c2440\x2duart.%i-tty-ttySAC%i.device
+
+[Service]
+EnvironmentFile=/etc/conf.d/ap6210bt
+EnvironmentFile=-/etc/conf.d/ap6210bt-ttySAC%I
+ExecStartPre=/usr/bin/bash -c 'echo -n \'$1\' > /dev/ttySAC$0' %i ${BRCM_PRE}
+ExecStart=/usr/bin/brcm_patchram_plus --patchram ${BRCM_PATCHRAM} --enable_hci --bd_addr ${BRCM_ADDR} --no2bytes --tosleep ${BRCM_TOSLEEP} $BRCM_EXTRA /dev/ttySAC%i
+KillMode=mixed
+KillSignal=SIGINT
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

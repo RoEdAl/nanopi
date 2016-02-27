@@ -1,0 +1,25 @@
+pkgname=nanopi-firmware-loader
+pkgver=1
+pkgrel=1
+pkgdesc='NanoPi firmware loader services'
+arch=('any')
+url='http://nanopi.org'
+license=('BSD')
+depends=('brcm-patchram-plus' 'nanopi-firmware')
+source=('ap6210bt' 'ap6210bt@.service' 'ap6210bt-sched.conf')
+md5sums=('054fefbd7fb02bb949b55966613491b0'
+         '3abad3c8a0cbcb02bd0afa9c0d5e0e76'
+         'fea89e5d54be05f0075f1f5c7c3f868e')
+
+package() {
+    cd "${srcdir}"
+
+    install -dm644 "${pkgdir}/usr/lib/systemd/system"
+    install -m644 ap6210bt@.service "${pkgdir}/usr/lib/systemd/system"
+
+    install -dm644 "${pkgdir}/usr/lib/systemd/system/ap6210bt@.service.d"
+    install -m644 ap6210bt-sched.conf "${pkgdir}/usr/lib/systemd/system/ap6210bt@.service.d/sched.conf"
+
+    install -dm644 "${pkgdir}/etc/conf.d"
+    install -m644 ap6210bt "${pkgdir}/etc/conf.d"
+}
