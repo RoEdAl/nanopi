@@ -1,34 +1,31 @@
 #!/bin/bash
+
+CURRENT_DIR=$(pwd)
+
 echo '[nanopi] Removing nanopi directory'
 [ -d nanopi ] && rm -rf nanopi
 
-echo '[nanopi] Preparing directory'
-mkdir -p nanopi/usr/bin
-cp /usr/bin/qemu-arm-static nanopi/usr/bin
+echo '[nanopi] Creating rootfs directory'
+mkdir -p "$CURRENT_DIR/nanopi/usr/bin"
 
-echo '[nanopi] Making filesystem'
-pacstrap -C pacman-nanopi.conf -d -G -M nanopi base nano dialog
+echo "[nanopi] Making filesystem on $CURRENT_DIR/nanopi"
+systemd-nspawn -q -M nanopi.build --bind-ro /usr/bin/qemu-arm-static --bind $CURRENT_DIR/nanopi:/opt/nanopi --bind-ro /usr/bin/qemu-arm-static:/opt/nanopi/usr/bin/qemu-arm-static  -a -D $CURRENT_DIR/arietta /usr/bin/pacstrap -d -G -M /opt/nanopi base nano dialog
 [ -d nanopi/root ] || {
     echo 'Invalid root filesystem'
     exit 1
 }
 
 echo '[nanopi] Updating packages inside NanoPi root filesystem'
-mkdir nanopi/root/custompkg
-cp prepare_inside.sh nanopi/root/custompkg
-cp custompkg/*.pkg.tar.xz nanopi/root/custompkg
-arch-chroot nanopi bash /root/custompkg/prepare_inside.sh
+mv nanopi/etc/resolv.conf nanopi/etc/resolv.conf.bak
+systemd-nspawn -q -M nanopi --bind-ro /usr/bin/qemu-arm-static --bind-ro $CURRENT_DIR/custompkg:/opt/custompkg --bind-ro $CURRENT_DIR/prepare_inside.sh:/opt/prepare_inside.sh -a -D $CURRENT_DIR/nanopi /opt/prepare_inside.sh
 
 echo '[nanopi] Symlinking /run/systemd/resolve/resolv.conf'
-mv nanopi/etc/resolv.conf nanopi/etc/resolv.conf.bak
-ln -s /run/systemd/resolve/resolv.conf nanopi/etc/resolv.conf
+ln -sf /run/systemd/resolve/resolv.conf nanopi/etc/resolv.conf
 
 echo '[nanopi] Cleaning NanoPi filesystem'
-rm -rf nanopi/root/cusotmpkg
-rm nanopi/usr/bin/qemu-arm-static
 rm nanopi/var/log/*.log
 
-echo '[nanopi] Conmpressing NanoPi filesystem'
+echo '[nanopi] Compressing NanoPi filesystem'
 bsdtar -cJf ArchLinuxARM-NanoPi-latest.tar.xz --option xz:compression-level=6 -C nanopi .
 ls -l ArchLinuxARM*.tar.xz
 
